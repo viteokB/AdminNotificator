@@ -1,7 +1,7 @@
-using System.Runtime.CompilerServices;
 using AdminNotificator.Application.Models.UserProfile;
 using AdminNotificator.Core.Domain;
 using AdminNotificator.Core.Repositories;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 
 namespace AdminNotificator.Application.Services;
@@ -23,14 +23,19 @@ public class EmailTypeService : IEmailTypeService
         this.mapper = mapper;
     }
 
-    public Task<int> Add(EmailTypeAddDTO dto)
+    public async Task<string> Add(EmailTypeAddDTO dto)
     {
-        mapper.Map();
+        var entity = mapper.Map<EmailTypeAddDTO, EmailType>(dto);
+        await emailTypeRepository.AddAsync(entity);
+        logger.Log(LogLevel.Information, "user added");
+        return entity.Id;
     }
 
-    public Task Update(EmailType emailType)
+    public async Task Update(EmailTypeUpdateDTO dto)
     {
-        throw new NotImplementedException();
+        var entity = mapper.Map<EmailTypeUpdateDTO, EmailType>(dto);
+        await emailTypeRepository.UpdateAsync(entity);
+        logger.Log(LogLevel.Information, "user updated");
     }
 
     public Task Delete(EmailType emailType)
