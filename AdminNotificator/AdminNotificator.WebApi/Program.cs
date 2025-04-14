@@ -1,5 +1,10 @@
+using System;
 using System.Reflection;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +16,7 @@ builder.Services.AddSwaggerGen(swagger =>
     // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     // swagger.IncludeXmlComments(xmlPath);
-    
+
     swagger.SupportNonNullableReferenceTypes();
 });
 

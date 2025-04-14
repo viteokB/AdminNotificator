@@ -1,6 +1,8 @@
 using AdminNotificator.Application.Services;
 using AdminNotificator.Core.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace AdminNotificator.WebApi.Controllers;
 
@@ -16,7 +18,7 @@ public class EmailTypeController(IEmailTypeService emailTypeService, ILogger log
         logger.LogInformation($"Method: GetAll; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpGet]
     [Route("/api/emailType")]
     public IActionResult Get(int id)
@@ -25,7 +27,7 @@ public class EmailTypeController(IEmailTypeService emailTypeService, ILogger log
         logger.LogInformation($"Method: Get; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpDelete]
     [Route("/api/emailType")]
     public IActionResult Delete([FromBody] EmailType emailType)
@@ -34,7 +36,7 @@ public class EmailTypeController(IEmailTypeService emailTypeService, ILogger log
         logger.LogInformation($"Method: Delete; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpPut]
     [Route("/api/emailType")]
     public IActionResult Update([FromBody] EmailType emailType)
@@ -43,7 +45,7 @@ public class EmailTypeController(IEmailTypeService emailTypeService, ILogger log
         logger.LogInformation($"Method: Update; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpPost]
     [Route("/api/emailType")]
     public IActionResult Add([FromBody] EmailType emailType)

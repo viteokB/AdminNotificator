@@ -1,6 +1,8 @@
 using AdminNotificator.Application.Services;
 using AdminNotificator.Core.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace AdminNotificator.WebApi.Controllers;
 
@@ -16,7 +18,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
         logger.LogInformation($"UserProfileController; Method: GetAll; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpGet]
     [Route("/api/UserProfiles")]
     public IActionResult Get(int id)
@@ -25,7 +27,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
         logger.LogInformation($"UserProfileController; Method: Get; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpDelete]
     [Route("/api/UserProfile")]
     public IActionResult Delete(UserProfile userProfile)
@@ -34,7 +36,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
         logger.LogInformation($"UserProfileController; Method: Delete; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpPut]
     [Route("/api/UserProfile")]
     public IActionResult Update(UserProfile userProfile)
@@ -43,7 +45,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
         logger.LogInformation($"UserProfileController; Method: Update; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
-    
+
     [HttpPost]
     [Route("/api/UserProfile")]
     public IActionResult Add(UserProfile userProfile)
