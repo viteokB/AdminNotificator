@@ -3,6 +3,7 @@ using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(swagger =>
 {
