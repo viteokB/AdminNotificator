@@ -3,40 +3,46 @@ using AdminNotificator.Core.Domain;
 
 namespace AdminNotificator.Core.Repositories;
 
-public class EmailTypeRepository : IRepository<EmailType>
+public class EmailTypeRepository(AdminNotificatorDbContext dbContext) : IRepository<EmailType>
 {
     public IQueryable<EmailType> GetAll()
     {
-        throw new NotImplementedException();
+        return dbContext.EmailTypes;
     }
 
-    public Task AddAsync(EmailType item, CancellationToken cancellationToken = default)
+    public async Task AddAsync(EmailType item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await dbContext.AddAsync(item, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task AddAllAsync(IEnumerable<EmailType> entities, CancellationToken cancellationToken = default)
+    public async Task AddAllAsync(IEnumerable<EmailType> entities, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await dbContext.AddRangeAsync(entities, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task UpdateAsync(EmailType item, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(EmailType item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        dbContext.UpdateRange(item);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task DeleteAsync(EmailType item, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(EmailType item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        dbContext.Remove(item);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task DeleteAllAsync(IEnumerable<EmailType> items, CancellationToken cancellationToken = default)
+    public async Task DeleteAllAsync(IEnumerable<EmailType> items, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        dbContext.RemoveRange(items);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task DeleteAllAsync(Expression<Func<EmailType, bool>> predicate, CancellationToken cancellationToken = default)
+    public async Task DeleteAllAsync(Expression<Func<EmailType, bool>> predicate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        dbContext.EmailTypes.RemoveRange(dbContext.EmailTypes.Where(predicate));
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
