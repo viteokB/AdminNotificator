@@ -16,17 +16,17 @@ public class EmailTypeService : IEmailTypeService
         this.logger = logger;
     }
 
-    public Task<int> Add(UserProfile userProfile)
+    public Task<int> Add(EmailType emailType)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(UserProfile userProfile)
+    public Task Update(EmailType emailType)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(UserProfile userProfile)
+    public Task Delete(EmailType emailType)
     {
         throw new NotImplementedException();
     }
@@ -36,8 +36,13 @@ public class EmailTypeService : IEmailTypeService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<UserProfile>> GetAll()
+    public Task<IEnumerable<EmailType>> GetAll()
     {
         throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id)
+    {
+
     }
 }
