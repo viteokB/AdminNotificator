@@ -2,10 +2,8 @@ using AdminNotificator.Core.Domain;
 
 namespace AdminNotificator.Application.Models.UserProfile;
 
-public class UserProfileAdd
+public class UserProfileAddDTO
 {
-    public string Id { get; private set; }
-
     /// <summary>
     ///     Логин в домене
     /// </summary>

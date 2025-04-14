@@ -2,5 +2,5 @@ namespace AdminNotificator.Application.Models.EmailType;
 
 public class EmailTypeDeleteDTO
 {
-    public string Id;
+    public string Id { get; set; }
 }
