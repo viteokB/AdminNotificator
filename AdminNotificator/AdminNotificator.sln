@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminNotificator.Tests", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminNotificator.WebApi", "AdminNotificator.WebApi\AdminNotificator.WebApi.csproj", "{7F8235DA-5D25-44BB-86B3-217F39FD9D40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminNotificator.Application", "AdminNotificator.Application\AdminNotificator.Application.csproj", "{FB2BEFE3-503F-4F6C-89C2-3D16D084FC6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{7F8235DA-5D25-44BB-86B3-217F39FD9D40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F8235DA-5D25-44BB-86B3-217F39FD9D40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F8235DA-5D25-44BB-86B3-217F39FD9D40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB2BEFE3-503F-4F6C-89C2-3D16D084FC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB2BEFE3-503F-4F6C-89C2-3D16D084FC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB2BEFE3-503F-4F6C-89C2-3D16D084FC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB2BEFE3-503F-4F6C-89C2-3D16D084FC6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
