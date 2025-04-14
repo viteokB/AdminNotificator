@@ -95,7 +95,7 @@ class EmailTypeServiceTests
     [Test]
     public async Task Get_NegativeId_ShouldReturnNull()
     {
-        Func<Task> act = async () => await service.Get(-1);
+        Func<Task> act = async () => await service.Get("-1");
 
         await act.Should().ThrowAsync<ServiceException>();
     }
