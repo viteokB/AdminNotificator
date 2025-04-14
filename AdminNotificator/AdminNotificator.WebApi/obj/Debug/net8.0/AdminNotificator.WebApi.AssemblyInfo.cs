@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AdminNotificator.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d86a092186e9a887937b7231ab69de99c3634c2e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1dbad20f36dfc9394c02604018850bc7030c8d4d")]
 [assembly: System.Reflection.AssemblyProductAttribute("AdminNotificator.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AdminNotificator.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

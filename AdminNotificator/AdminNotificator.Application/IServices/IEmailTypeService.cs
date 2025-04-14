@@ -1,3 +1,4 @@
+using AdminNotificator.Application.Models.EmailType;
 using AdminNotificator.Core.Domain;
 
 namespace AdminNotificator.Application.Services;
@@ -23,6 +24,8 @@ public interface IEmailTypeService
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<UserProfile>> GetEmailsType(EmailTypeSearchDTO emailType);
 
     public Task<IEnumerable<UserProfile>> GetAll()
     {

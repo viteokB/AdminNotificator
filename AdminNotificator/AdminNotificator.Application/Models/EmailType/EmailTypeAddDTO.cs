@@ -1,4 +1,4 @@
-namespace AdminNotificator.Application.Models.UserProfile;
+namespace AdminNotificator.Application.Models.EmailType;
 
 public class EmailTypeAddDTO
 {
