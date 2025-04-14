@@ -20,7 +20,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
     }
 
     [HttpGet]
-    [Route("/api/UserProfiles")]
+    [Route("/api/UserProfiles{id}")]
     public async Task<IActionResult> Get(int id)
     {
         var result = await userProfileService.Get(id);
@@ -30,7 +30,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 
     [HttpDelete]
     [Route("/api/UserProfile")]
-    public async Task<IActionResult> Delete(UserProfile userProfile)
+    public async Task<IActionResult> Delete([FromBody] UserProfile userProfile)
     {
         await userProfileService.Delete(userProfile);
         logger.LogInformation($"UserProfileController; Method: Delete; StatusCode: {Results.Ok()}");
@@ -39,7 +39,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 
     [HttpPut]
     [Route("/api/UserProfile")]
-    public async Task<IActionResult> Update(UserProfile userProfile)
+    public async Task<IActionResult> Update([FromBody] UserProfile userProfile)
     {
         await userProfileService.Update(userProfile);
         logger.LogInformation($"UserProfileController; Method: Update; StatusCode: {Results.Ok()}");
@@ -48,7 +48,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 
     [HttpPost]
     [Route("/api/UserProfile")]
-    public async Task<IActionResult> Add(UserProfile userProfile)
+    public async Task<IActionResult> Add([FromBody] UserProfile userProfile)
     {
         var result = await userProfileService.Add(userProfile);
         logger.LogInformation($"UserProfileController; Method: Add; StatusCode: {Results.Ok()}");
