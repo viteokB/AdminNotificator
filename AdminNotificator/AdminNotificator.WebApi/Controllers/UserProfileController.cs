@@ -10,45 +10,45 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 {
     [HttpGet]
     [Route("/api/UserProfile")]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var result = userProfileService.GetAll();
+        var result = await userProfileService.GetAll();
         logger.LogInformation($"UserProfileController; Method: GetAll; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
     
     [HttpGet]
     [Route("/api/UserProfiles")]
-    public IActionResult Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        var result = userProfileService.Get(id);
+        var result = await userProfileService.Get(id);
         logger.LogInformation($"UserProfileController; Method: Get; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
     
     [HttpDelete]
     [Route("/api/UserProfile")]
-    public IActionResult Delete(UserProfile userProfile)
+    public async Task<IActionResult> Delete(UserProfile userProfile)
     {
-        var result = userProfileService.Delete(userProfile);
+        await userProfileService.Delete(userProfile);
         logger.LogInformation($"UserProfileController; Method: Delete; StatusCode: {Results.Ok()}");
-        return Ok(result);
+        return Ok();
     }
     
     [HttpPut]
     [Route("/api/UserProfile")]
-    public IActionResult Update(UserProfile userProfile)
+    public async Task<IActionResult> Update(UserProfile userProfile)
     {
-        var result = userProfileService.Update(userProfile);
+        await userProfileService.Update(userProfile);
         logger.LogInformation($"UserProfileController; Method: Update; StatusCode: {Results.Ok()}");
-        return Ok(result);
+        return Ok();
     }
     
     [HttpPost]
     [Route("/api/UserProfile")]
-    public IActionResult Add(UserProfile userProfile)
+    public async Task<IActionResult> Add(UserProfile userProfile)
     {
-        var result = userProfileService.Add(userProfile);
+        var result = await userProfileService.Add(userProfile);
         logger.LogInformation($"UserProfileController; Method: Add; StatusCode: {Results.Ok()}");
         return Ok(result);
     }

@@ -70,4 +70,8 @@ public class EmailTypeService : IEmailTypeService
     {
         throw new NotImplementedException();
     }
+    public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
