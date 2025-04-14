@@ -1,4 +1,5 @@
 using AdminNotificator.Application.Common;
+using AdminNotificator.Application.IServices;
 using AdminNotificator.Application.Models.EmailType;
 using AdminNotificator.Application.ServiceExceptions;
 using AdminNotificator.Core.Domain;
@@ -17,7 +18,7 @@ public class EmailTypeService : IEmailTypeService
     private readonly IMapper mapper;
 
     public EmailTypeService(
-        IRepository<EmailType> emailTypeRepository,
+        IEmailTypeRepository emailTypeRepository,
         IRepository<UserProfile> userProfileRepository,
         ILogger<EmailTypeService> logger,
         IMapper mapper)
@@ -31,7 +32,7 @@ public class EmailTypeService : IEmailTypeService
     public async Task<string> Add(EmailTypeAddDTO dto)
     {
         if (dto is null) throw new ServiceException("dto is null");
-        
+
         var entity = mapper.Map<EmailTypeAddDTO, EmailType>(dto);
         await emailTypeRepository.AddAsync(entity);
         logger.Log(LogLevel.Information, "email type added");
@@ -41,7 +42,7 @@ public class EmailTypeService : IEmailTypeService
     public async Task Update(EmailTypeUpdateDTO dto)
     {
         if (dto is null) throw new ServiceException("dto is null");
-        
+
         var entity = mapper.Map<EmailTypeUpdateDTO, EmailType>(dto);
         await emailTypeRepository.UpdateAsync(entity);
         logger.Log(LogLevel.Information, "email type updated");
@@ -50,7 +51,7 @@ public class EmailTypeService : IEmailTypeService
     public async Task Delete(EmailTypeDeleteDTO dto)
     {
         if (dto is null) throw new ServiceException("dto is null");
-        
+
         var dbEmailType = emailTypeRepository.GetAll()
             .FirstOrDefault(x => x.Id == dto.Id);
 
@@ -67,14 +68,14 @@ public class EmailTypeService : IEmailTypeService
     public Task<UserProfile> Get(int id)
     {
         if (id < 0) throw new ServiceException("id is negative");
-        
+
         throw new NotImplementedException();
     }
 
     public Task<List<UserProfile>> GetEmailsType(EmailTypeSearchDTO emailType)
     {
         if (emailType is null) throw new ServiceException("dto is null");
-        
+
         throw new NotImplementedException();
     }
 
