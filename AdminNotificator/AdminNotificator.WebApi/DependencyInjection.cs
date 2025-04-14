@@ -12,25 +12,26 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddAplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<IEmailTypeService, EmailTypeService>();
-        services.AddScoped<IUserProfileService, UserProfileService>();
-        
         //Переделать под рефлексию
         services.AddScoped<IUserFilter, FilterByDepartment>();
         services.AddScoped<IUserFilter, FilterByGender>();
         services.AddScoped<IUserFilter, FilterByOrganizationNames>();
         services.AddScoped<IUserFilter, FilterByPosts>();
         services.AddScoped<IUserFilter, FilterByTowns>();
+        services.AddScoped<AllFilters>();
+        
+        services.AddScoped<IEmailTypeService, EmailTypeService>();
+        services.AddScoped<IUserProfileService, UserProfileService>();
         
         return services;
     }
 
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
-        services.AddDbContext<DbContext, AdminNotificatorDbContext>();
+        services.AddDbContext<AdminNotificatorDbContext>();
 
-        services.AddScoped<IEmailTypeRepository, EmailTypeRepository>();
         services.AddScoped<IRepository<UserProfile>, UserProfileRepository>();
+        services.AddScoped<IEmailTypeRepository, EmailTypeRepository>();
         
         return services;
     }

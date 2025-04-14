@@ -7,7 +7,7 @@ public class FilterByDepartment : IUserFilter
 {
     private readonly IRepository<UserProfile> userProfileRepository;
 
-    FilterByDepartment(IRepository<UserProfile> userProfileRepository)
+    public FilterByDepartment(IRepository<UserProfile> userProfileRepository)
     {
         this.userProfileRepository = userProfileRepository;
     }

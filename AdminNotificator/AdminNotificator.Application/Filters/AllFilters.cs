@@ -9,14 +9,14 @@ public class AllFilters
     private FilterByOrganizationNames filterByOrganizationNames;
     public readonly List<IUserFilter> userFilters = new List<IUserFilter>();
 
-    public AllFilters(FilterByDepartment filterByDepartment, FilterByGender filterByGender,
-        FilterByOrganizationNames filterByOrganizationNames, FilterByPosts filterByPosts, FilterByTowns filterByTowns)
+    public AllFilters(IEnumerable<IUserFilter> givenFilters)
     {
-        userFilters.Add(filterByDepartment);
-        userFilters.Add(filterByGender);
-        userFilters.Add(filterByOrganizationNames);
-        userFilters.Add(filterByPosts);
-        userFilters.Add(filterByTowns);
+        userFilters.AddRange(givenFilters);
+        // userFilters.Add(filterByDepartment);
+        // userFilters.Add(filterByGender);
+        // userFilters.Add(filterByOrganizationNames);
+        // userFilters.Add(filterByPosts);
+        // userFilters.Add(filterByTowns);
     }
 
     public List<IUserFilter> GetUserFilters()
