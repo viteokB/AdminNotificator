@@ -1,4 +1,5 @@
 using AdminNotificator.Application.IServices;
+using AdminNotificator.Application.Models.EmailType;
 using AdminNotificator.Application.ServiceExceptions;
 using AdminNotificator.Application.Services;
 using AdminNotificator.Core.Domain;
@@ -12,7 +13,7 @@ namespace AdminNotificator.Tests;
 
 class EmailTypeServiceTests
 {
-    private readonly IRepository<EmailType> fakeRepo;
+    private readonly IEmailTypeRepository fakeRepo;
     private readonly IRepository<UserProfile> fakeUserProvider;
     private readonly ILogger<EmailTypeService> fakeLogger;
     private readonly IMapper fakeMapper;
@@ -20,9 +21,24 @@ class EmailTypeServiceTests
 
     public EmailTypeServiceTests()
     {
-        fakeRepo = A.Fake<IRepository<EmailType>>();
+        fakeRepo = A.Fake<IEmailTypeRepository>();
         fakeLogger = A.Fake<ILogger<EmailTypeService>>();
         service = new EmailTypeService(fakeRepo, fakeUserProvider, fakeLogger, fakeMapper);
+    }
+    
+    [Test]
+    public async Task Add_ValidDto_ShouldAddAndReturnId()
+    {
+        var dto = new EmailTypeAddDTO
+        {
+            EmailTitle = "Test",
+            BodyName = "Body",
+            SenderEmail = "sender@example.com"
+        };
+
+        var result = await service.Add(dto);
+        
+        A.CallTo(() => fakeLogger.Log(LogLevel.Information, "email type added")).MustHaveHappened();
     }
     
     [Test]
@@ -40,15 +56,42 @@ class EmailTypeServiceTests
 
         await act.Should().ThrowAsync<ServiceException>();
     }
-
+    
     [Test]
-    public async Task Delete_NullEmailType_ShouldThrowArgumentNullException()
+    public async Task Update_ValidDto_ShouldUpdate()
     {
-        Func<Task> act = async () => await service.Delete(null);
+        var dto = new EmailTypeUpdateDTO
+        {
+            EmailTitle = "Update",
+            BodyName = "Body",
+            SenderEmail = "sender@example.com"
+        };
 
-        await act.Should().ThrowAsync<ServiceException>();
+        await service.Update(dto);
+        
+        A.CallTo(() => fakeLogger.Log(LogLevel.Information, "email type updated")).MustHaveHappened();
+    }
+    
+    [Test]
+    public async Task Delete_ShouldThrowServiceException_WhenDtoIsNull()
+    {
+        var act = async () => await service.Delete(null);
+        
+        await act.Should()
+            .ThrowAsync<ServiceException>()
+            .WithMessage("dto is null");
     }
 
+    [Test]
+    public async Task Delete_ShouldCallDeleteAsync_WhenEmailTypeExists()
+    {
+        var addDto = new EmailTypeAddDTO { EmailTitle = "Test", BodyName = "Body", SenderEmail = "sender@example.com" };
+        var addedId = await service.Add(addDto);
+        var deleteDto = new EmailTypeDeleteDTO { Id = addedId };
+        var act = async () => await service.Delete(deleteDto);
+        await act.Should().NotThrowAsync();
+    }
+    
     [Test]
     public async Task Get_NegativeId_ShouldReturnNull()
     {
