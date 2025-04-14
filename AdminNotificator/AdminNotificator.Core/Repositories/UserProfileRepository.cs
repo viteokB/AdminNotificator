@@ -1,43 +1,43 @@
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using AdminNotificator.Core.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminNotificator.Core.Repositories;
 
-public class UserProfileRepository : IRepository<UserProfile>
+public class UserProfileRepository(AdminNotificatorDbContext context) : IRepository<UserProfile>
 {
-
-    private readonly AdminNotificatorDbContext _dBcontext;
-
-    UserProfileRepository(AdminNotificatorDbContext context)
-    {
-        _dBcontext = context;
-    }
-    
     public IQueryable<UserProfile> GetAll()
     {
-        throw new NotImplementedException();
+        return context.UserProfiles.AsQueryable();
     }
 
-    public Task AddAsync(UserProfile item, CancellationToken cancellationToken = default)
+    public async Task AddAsync(UserProfile item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await context.UserProfiles.AddAsync(item, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
-    public Task AddAllAsync(IEnumerable<UserProfile> entities, CancellationToken cancellationToken = default)
+    public async Task AddAllAsync(IEnumerable<UserProfile> entities, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await context.UserProfiles.AddRangeAsync(entities, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAllAsync(IEnumerable<UserProfile> items, CancellationToken cancellationToken = default)
     {
-        _dBcontext.UserProfiles.RemoveRange(items);
-        await _dBcontext.SaveChangesAsync(cancellationToken);
+        context.UserProfiles.RemoveRange(items);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAllAsync(Expression<Func<UserProfile, bool>> predicate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var itemsToDelete = await context.UserProfiles.Where(predicate).ToListAsync(cancellationToken);
+        
+        if (itemsToDelete.Count != 0)
+        {    context.UserProfiles.RemoveRange(itemsToDelete);
+            await context.SaveChangesAsync(cancellationToken);
+        }
     }
 
     public async Task UpdateAsync(UserProfile item, CancellationToken cancellationToken = default)
