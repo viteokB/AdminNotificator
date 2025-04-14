@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AdminNotificator.Core.Domain;
 
-namespace AdminNotificator.Core.Domain;
+namespace AdminNotificator.Application.Models.UserProfile;
 
-public class UserProfile
+public class UserProfileAddDTO
 {
-    public string Id { get; private set; }
-
     /// <summary>
     ///     Логин в домене
     /// </summary>
@@ -93,41 +89,4 @@ public class UserProfile
     /// Дата декрета
     /// </summary>
     public DateTime? MaternityLeaveDate { get; set; }
-
-    private UserProfile(string login, string sid, string firstname, string surname, string patronymic,
-        string email, DateTime? seniorityDate, int? suspendedSeniorityDays, IEnumerable<UserDepartment> departmentItems,
-        IEnumerable<UserPosition> positions, int[] departmentIds, UserStatus userStatus, UserOffice userOffice,
-        UserGender userGender, DateTime? maternityLeaveDate)
-    {
-        Login = login;
-        Sid = sid;
-        Firstname = firstname;
-        Surname = surname;
-        Patronymic = patronymic;
-        SyncDate = DateTime.UtcNow;
-        Email = email;
-        Seniority = seniorityDate;
-        SuspendedSeniorityDays = suspendedSeniorityDays;
-        DepartmentItems = departmentItems?.ToArray();
-        UserPositions = positions?.ToArray();
-        DepartmentIds = departmentIds;
-        UserStatus = userStatus;
-        UserOffice = userOffice;
-        UserGender = userGender;
-        MaternityLeaveDate = maternityLeaveDate;
-    }
-
-    public static UserProfile Create(string login, string sid, string firstname, string surname, string patronymic, string email,
-        DateTime? seniorityDate, int? suspendedSeniorityDays, IEnumerable<UserPosition> positions,
-        IEnumerable<UserDepartment> departmentItems, int[] departmentIds, UserStatus userStatus, UserOffice userOffice,
-        UserGender userGender, DateTime? maternityLeaveDate)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(login);
-        ArgumentException.ThrowIfNullOrWhiteSpace(sid);
-        ArgumentException.ThrowIfNullOrWhiteSpace(firstname);
-        ArgumentException.ThrowIfNullOrWhiteSpace(surname);
-
-        return new UserProfile(login, sid, firstname, surname, patronymic, email, seniorityDate, suspendedSeniorityDays,
-            departmentItems, positions, departmentIds, userStatus, userOffice, userGender, maternityLeaveDate);
-    }
 }

@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
+namespace AdminNotificator.Application.Models.EmailType;
 
-namespace AdminNotificator.Core.Domain;
-
-public class EmailType
+public class EmailTypeUpdateDTO
 {
-    /// <summary>
-    /// Уникальный номер типа рассылки
-    /// </summary>
-    public required string Id { get; set; }
-
-    /// <summary>
+        /// <summary>
     /// Количество дней в компании
     /// </summary>
     public int? ExperianceDays { get; set; }

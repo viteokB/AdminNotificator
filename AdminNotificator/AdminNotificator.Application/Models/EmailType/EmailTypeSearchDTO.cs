@@ -1,24 +1,11 @@
-using System;
-using System.Collections.Generic;
+﻿namespace AdminNotificator.Application.Models.EmailType;
 
-namespace AdminNotificator.Core.Domain;
-
-public class EmailType
+public class EmailTypeSearchDTO
 {
-    /// <summary>
-    /// Уникальный номер типа рассылки
-    /// </summary>
-    public required string Id { get; set; }
-
     /// <summary>
     /// Количество дней в компании
     /// </summary>
     public int? ExperianceDays { get; set; }
-
-    /// <summary>
-    /// Заголовок письма
-    /// </summary>
-    public required string EmailTitle { get; set; }
 
     /// <summary>
     /// Отправлять письма только сотрудникам указанных отделов
@@ -36,11 +23,6 @@ public class EmailType
     public string[]? IntersectOrganizationNames { get; set; }
 
     /// <summary>
-    /// Название типа письма
-    /// </summary>
-    public required string BodyName { get; set; }
-
-    /// <summary>
     /// Отправлять письма только сотрудникам указанных городов
     /// </summary>
     public string[]? IntersectTowns { get; set; }
@@ -49,12 +31,6 @@ public class EmailType
     /// Не отправлять письма сотрудникам указанных городов
     /// </summary>
     public string[]? ExceptTowns { get; set; }
-
-
-    /// <summary>
-    /// Не отправляють после указаной даты
-    /// </summary>
-    public DateTime? DontSendAfterDate { get; set; }
 
     /// <summary>
     /// Кол-во дней декретного отпуска, через которое нужно отправить письмо
@@ -67,11 +43,6 @@ public class EmailType
     public string[]? ForGenders { get; set; }
 
     /// <summary>
-    /// Через сколько дней возможна повторная рассылка писем c этим типом
-    /// </summary>
-    public int? DayCountsForResend { get; set; }
-
-    /// <summary>
     /// Отправлять письма только сотрудникам указанных должностей
     /// </summary>
     public HashSet<string>? IntersectUserPosts { get; set; }
@@ -80,8 +51,4 @@ public class EmailType
     /// Отправлять письма всем сотрудникам кроме указанных должностей
     /// </summary>
     public HashSet<string>? ExceptUserPosts { get; set; }
-
-    public required string SenderEmail { get; set; }
-
-    public string[] Bcc { get; set; } = Array.Empty<string>();
 }

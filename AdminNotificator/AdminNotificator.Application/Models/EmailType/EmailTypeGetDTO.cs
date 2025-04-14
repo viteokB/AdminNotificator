@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
+namespace AdminNotificator.Application.Models.EmailType;
 
-namespace AdminNotificator.Core.Domain;
-
-public class EmailType
+public class EmailTypeGetDTO
 {
-    /// <summary>
+        /// <summary>
     /// Уникальный номер типа рассылки
     /// </summary>
     public required string Id { get; set; }

@@ -1,33 +1,20 @@
+using AdminNotificator.Application.Common;
+using AdminNotificator.Application.Models.EmailType;
 using AdminNotificator.Core.Domain;
 
-namespace AdminNotificator.Application.Services;
+namespace AdminNotificator.Application.IServices;
 
 public interface IEmailTypeService
 {
-    public Task<int> Add(EmailType emailType)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<string> Add(EmailTypeAddDTO emailType);
 
-    public Task Update(EmailType emailType)
-    {
-        throw new NotImplementedException();
-    }
+    public Task Update(EmailTypeUpdateDTO emailType);
 
-    public Task Delete(EmailType emailType)
-    {
-        throw new NotImplementedException();
-    }
+    public Task Delete(EmailTypeDeleteDTO emailType);
 
-    public Task<UserProfile> Get(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<UserProfile> Get(int id);
 
-    public Task<IEnumerable<UserProfile>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+    public Task<List<UserProfile>> GetEmailsType(EmailTypeSearchDTO emailType);
 
-    public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id);
+    public Task<PaginatedList<EmailTypeGetDTO>> GetAll(int pageIndex, int pageSize);
 }
