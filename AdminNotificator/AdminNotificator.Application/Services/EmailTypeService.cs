@@ -1,6 +1,5 @@
-using System.Runtime.CompilerServices;
+using AdminNotificator.Application.Common;
 using AdminNotificator.Application.Models.EmailType;
-using AdminNotificator.Application.Models.UserProfile;
 using AdminNotificator.Application.ServiceExceptions;
 using AdminNotificator.Core.Domain;
 using AdminNotificator.Core.Repositories;
@@ -18,7 +17,7 @@ public class EmailTypeService : IEmailTypeService
     private readonly IMapper mapper;
 
     public EmailTypeService(
-        IEmailTypeRepository emailTypeRepository,
+        IRepository<EmailType> emailTypeRepository,
         IRepository<UserProfile> userProfileRepository,
         ILogger<EmailTypeService> logger,
         IMapper mapper)
@@ -44,33 +43,22 @@ public class EmailTypeService : IEmailTypeService
         logger.Log(LogLevel.Information, "email type updated");
     }
 
-    public async Task Delete(EmailType emailType)
+    public async Task Delete(EmailTypeDeleteDTO dto)
     {
         var dbEmailType = await emailTypeRepository.GetAll()
-            .FirstOrDefaultAsync(x => x.Id == emailType.Id);
+            .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
         if (dbEmailType == null)
         {
-            throw new EmailException($"Email type with id={emailType.Id} not found");
+            throw new EmailException($"Email type with id={dto.Id} not found");
         }
-        
+
         await emailTypeRepository.DeleteAsync(dbEmailType);
     }
 
-    public async Task<List<UserProfile>> Get(string id)
+    public Task<UserProfile> Get(int id)
     {
-        var dbEmaiType = await emailTypeRepository.GetAll()
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        if (dbEmaiType == null)
-        {
-            throw new EmailException($"Email type with id={id} not found");
-        }
-        
-        //Не рабочая заглушка
-        var userProfiles = await GetUserProfiles(dbEmaiType);
-
-        return userProfiles;
+        throw new NotImplementedException();
     }
 
     public Task<List<UserProfile>> GetEmailsType(EmailTypeSearchDTO emailType)
@@ -78,12 +66,16 @@ public class EmailTypeService : IEmailTypeService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<EmailType>> GetAll()
+    public async Task<PaginatedList<EmailTypeGetDTO>> GetAll(int pageIndex, int pageSize)
     {
-        throw new NotImplementedException();
-    }
+        var emailTypes = await emailTypeRepository
+            .GetAll(pageIndex, pageSize)
+            .Select(x => mapper.Map<EmailType, EmailTypeGetDTO>(x))
+            .ToListAsync();
 
-    private async Task<List<UserProfile>> GetUserProfiles(EmailType emailType)
+        return new PaginatedList<EmailTypeGetDTO>(emailTypes, pageIndex, pageSize);
+    }
+    public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id)
     {
         throw new NotImplementedException();
     }

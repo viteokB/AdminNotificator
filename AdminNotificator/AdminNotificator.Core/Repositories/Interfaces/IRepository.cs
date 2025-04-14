@@ -1,4 +1,9 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AdminNotificator.Core.Repositories;
 
@@ -12,6 +17,8 @@ public interface IRepository<TEntity> where TEntity : class
     ///     Получение всех сущностей их хранилища
     /// </summary>
     /// <returns>Все сущности в хранилище</returns>
+    IQueryable<TEntity> GetAll(int pageIndex, int pageSize);
+
     IQueryable<TEntity> GetAll();
 
     /// <summary>
