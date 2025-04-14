@@ -9,16 +9,18 @@ namespace AdminNotificator.Application.Services;
 public class EmailTypeService : IEmailTypeService
 {
     private readonly IRepository<EmailType> emailTypeRepository;
-    private readonly ILogger<EmailType> logger;
+    private readonly IRepository<UserProfile> userProfileRepository;
+    private readonly ILogger<EmailTypeService> logger;
     private readonly IMapper mapper;
 
     public EmailTypeService(
         IRepository<EmailType> emailTypeRepository,
         IRepository<UserProfile> userProfileRepository,
-        ILogger<EmailType> logger,
+        ILogger<EmailTypeService> logger,
         IMapper mapper)
     {
         this.emailTypeRepository = emailTypeRepository;
+        this.userProfileRepository = userProfileRepository;
         this.logger = logger;
         this.mapper = mapper;
     }
