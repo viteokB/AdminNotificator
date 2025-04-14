@@ -11,4 +11,5 @@ public interface IUserProfileService
     public Task Delete(UserProfileDeleteDTO dto);
     public Task<UserProfileGetDTO> Get(string id);
     public Task<PaginatedList<UserProfileGetDTO>> GetAll(int pageIndex, int pageSize);
+    Task<IEnumerable<UserProfile>> GetUsersWithAllFilters(EmailType emailType);
 }
