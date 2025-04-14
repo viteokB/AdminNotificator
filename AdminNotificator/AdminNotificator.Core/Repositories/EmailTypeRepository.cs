@@ -5,6 +5,11 @@ namespace AdminNotificator.Core.Repositories;
 
 public class EmailTypeRepository(AdminNotificatorDbContext dbContext) : IRepository<EmailType>
 {
+    public IQueryable<EmailType> GetAll(int pageIndex, int pageSize)
+    {
+        return dbContext.EmailTypes.Skip(pageIndex * pageSize).Take(pageSize);
+    }
+
     public IQueryable<EmailType> GetAll()
     {
         return dbContext.EmailTypes;
