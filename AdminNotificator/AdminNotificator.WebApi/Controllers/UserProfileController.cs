@@ -1,8 +1,6 @@
+using AdminNotificator.Application.Models.UserProfile;
 using AdminNotificator.Application.Services;
-using AdminNotificator.Core.Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace AdminNotificator.WebApi.Controllers;
 
@@ -12,16 +10,16 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 {
     [HttpGet]
     [Route("/api/UserProfile")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] int pageIndex, [FromQuery] int pageSize)
     {
-        var result = await userProfileService.GetAll();
+        var result = await userProfileService.GetAll(pageIndex, pageSize);
         logger.LogInformation($"UserProfileController; Method: GetAll; StatusCode: {Results.Ok()}");
         return Ok(result);
     }
 
     [HttpGet]
     [Route("/api/UserProfiles{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> Get(string id)
     {
         var result = await userProfileService.Get(id);
         logger.LogInformation($"UserProfileController; Method: Get; StatusCode: {Results.Ok()}");
@@ -30,7 +28,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 
     [HttpDelete]
     [Route("/api/UserProfile")]
-    public async Task<IActionResult> Delete([FromBody] UserProfile userProfile)
+    public async Task<IActionResult> Delete([FromBody] UserProfileDeleteDTO userProfile)
     {
         await userProfileService.Delete(userProfile);
         logger.LogInformation($"UserProfileController; Method: Delete; StatusCode: {Results.Ok()}");
@@ -39,7 +37,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 
     [HttpPut]
     [Route("/api/UserProfile")]
-    public async Task<IActionResult> Update([FromBody] UserProfile userProfile)
+    public async Task<IActionResult> Update([FromBody] UserProfileUpdateDTO userProfile)
     {
         await userProfileService.Update(userProfile);
         logger.LogInformation($"UserProfileController; Method: Update; StatusCode: {Results.Ok()}");
@@ -48,7 +46,7 @@ public class UserProfileController(IUserProfileService userProfileService, ILogg
 
     [HttpPost]
     [Route("/api/UserProfile")]
-    public async Task<IActionResult> Add([FromBody] UserProfile userProfile)
+    public async Task<IActionResult> Add([FromBody] UserProfileAddDTO userProfile)
     {
         var result = await userProfileService.Add(userProfile);
         logger.LogInformation($"UserProfileController; Method: Add; StatusCode: {Results.Ok()}");
