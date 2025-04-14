@@ -4,17 +4,17 @@ namespace AdminNotificator.Application.Services;
 
 public interface IEmailTypeService
 {
-    public Task<int> Add(UserProfile userProfile)
+    public Task<int> Add(EmailType emailType)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(UserProfile userProfile)
+    public Task Update(EmailType emailType)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(UserProfile userProfile)
+    public Task Delete(EmailType emailType)
     {
         throw new NotImplementedException();
     }
