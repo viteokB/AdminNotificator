@@ -1,10 +1,10 @@
-using System.Runtime.CompilerServices;
+using AdminNotificator.Application.Common;
 using AdminNotificator.Application.Models.EmailType;
-using AdminNotificator.Application.Models.UserProfile;
 using AdminNotificator.Application.ServiceExceptions;
 using AdminNotificator.Core.Domain;
 using AdminNotificator.Core.Repositories;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AdminNotificator.Application.Services;
@@ -43,16 +43,16 @@ public class EmailTypeService : IEmailTypeService
         logger.Log(LogLevel.Information, "email type updated");
     }
 
-    public async Task Delete(EmailType emailType)
+    public async Task Delete(EmailTypeDeleteDTO dto)
     {
         var dbEmailType = emailTypeRepository.GetAll()
-            .FirstOrDefault(x => x.Id == emailType.Id);
+            .FirstOrDefault(x => x.Id == dto.Id);
 
         if (dbEmailType == null)
         {
-            throw new EmailException($"Email type with id={emailType.Id} not found");
+            throw new EmailException($"Email type with id={dto.Id} not found");
         }
-        
+
         await emailTypeRepository.DeleteAsync(dbEmailType);
     }
 
@@ -66,8 +66,13 @@ public class EmailTypeService : IEmailTypeService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<EmailType>> GetAll()
+    public async Task<PaginatedList<EmailTypeGetDTO>> GetAll(int pageIndex, int pageSize)
     {
-        throw new NotImplementedException();
+        var emailTypes = await emailTypeRepository
+            .GetAll(pageIndex, pageSize)
+            .Select(x => mapper.Map<EmailType, EmailTypeGetDTO>(x))
+            .ToListAsync();
+
+        return new PaginatedList<EmailTypeGetDTO>(emailTypes, pageIndex, pageSize);
     }
 }

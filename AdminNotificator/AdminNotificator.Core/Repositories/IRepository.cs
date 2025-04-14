@@ -12,6 +12,8 @@ public interface IRepository<TEntity> where TEntity : class
     ///     Получение всех сущностей их хранилища
     /// </summary>
     /// <returns>Все сущности в хранилище</returns>
+    IQueryable<TEntity> GetAll(int pageIndex, int pageSize);
+
     IQueryable<TEntity> GetAll();
 
     /// <summary>
