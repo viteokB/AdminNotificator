@@ -1,4 +1,5 @@
 using AdminNotificator.Core.Domain;
+using AdminNotificator.Core.TablesConfigration;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdminNotificator.Core;
@@ -11,15 +12,13 @@ public class AdminNotificatorDbContext : DbContext
     }
     
     public DbSet<EmailType> EmailTypes { get; set; }
+    
     public DbSet<UserProfile> UserProfiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<EmailType>()
-            .HasKey(x => x.Id);
-
-        builder.Entity<UserProfile>()
-            .HasKey(x => x.Id);
+        builder.ApplyConfiguration(new EmailTypeConfiguration());
+        builder.ApplyConfiguration(new UserProfileConfiguration());
     }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
