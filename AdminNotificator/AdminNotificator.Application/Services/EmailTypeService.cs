@@ -32,7 +32,7 @@ public class EmailTypeService : IEmailTypeService
     {
         var entity = mapper.Map<EmailTypeAddDTO, EmailType>(dto);
         await emailTypeRepository.AddAsync(entity);
-        logger.Log(LogLevel.Information, "user added");
+        logger.Log(LogLevel.Information, "email type added");
         return entity.Id;
     }
 
@@ -40,7 +40,7 @@ public class EmailTypeService : IEmailTypeService
     {
         var entity = mapper.Map<EmailTypeUpdateDTO, EmailType>(dto);
         await emailTypeRepository.UpdateAsync(entity);
-        logger.Log(LogLevel.Information, "user updated");
+        logger.Log(LogLevel.Information, "email type updated");
     }
 
     public async Task Delete(EmailType emailType)
@@ -69,10 +69,5 @@ public class EmailTypeService : IEmailTypeService
     public Task<IEnumerable<EmailType>> GetAll()
     {
         throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id)
-    {
-
     }
 }
