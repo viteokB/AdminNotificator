@@ -1,3 +1,4 @@
+using AdminNotificator.Application.IServices;
 using AdminNotificator.Application.ServiceExceptions;
 using AdminNotificator.Application.Services;
 using AdminNotificator.Core.Domain;
@@ -51,8 +52,8 @@ class EmailTypeServiceTests
     [Test]
     public async Task Get_NegativeId_ShouldReturnNull()
     {
-        var result = await service.Get(-1);
+        Func<Task> act = async () => await service.Get(-1);
 
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<ServiceException>();
     }
 }
