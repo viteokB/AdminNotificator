@@ -28,6 +28,4 @@ public interface IEmailTypeService
     {
         throw new NotImplementedException();
     }
-
-    public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id);
 }
