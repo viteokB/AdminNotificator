@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using AdminNotificator.Application.Common;
 using AdminNotificator.Application.Models.UserProfile;
 using AdminNotificator.Application.ServiceExceptions;
@@ -14,22 +15,14 @@ public class UserProfileService : IUserProfileService
 {
     private readonly IRepository<UserProfile> userProfileRepository;
     private readonly ILogger<UserProfile> logger;
-    private readonly List<IUserFilter> userFilters = new List<IUserFilter>();
     private readonly IMapper mapper;
+    private readonly AllFilters allFilters;
 
-    public UserProfileService(IRepository<UserProfile> userProfileRepository, ILogger<UserProfile> logger,
-        IMapper mapper,
-        FilterByDepartment filterByDepartment, FilterByGender filterByGender,
-        FilterByOrganizationNames filterByOrganizationNames, FilterByPosts filterByPosts, FilterByTowns filterByTowns)
+    public UserProfileService(IRepository<UserProfile> userProfileRepository, ILogger<UserProfile> logger, AllFilters allFilters, IMapper mapper)
     {
         this.userProfileRepository = userProfileRepository;
         this.logger = logger;
-        userFilters.Add(filterByDepartment);
-        userFilters.Add(filterByGender);
-        userFilters.Add(filterByOrganizationNames);
-        userFilters.Add(filterByPosts);
-        userFilters.Add(filterByTowns);
-
+        this.allFilters = allFilters;
     }
 
     public async Task<string> Add(UserProfileAddDTO dto)
@@ -113,7 +106,7 @@ public class UserProfileService : IUserProfileService
     public async Task<IEnumerable<UserProfile>> GetUsersWithAllFilters(EmailType emailType)
     {
         HashSet<UserProfile> filteredUers = new HashSet<UserProfile>();
-        foreach (var filter in userFilters)
+        foreach (var filter in allFilters.GetUserFilters())
         {
             var filtered = await filter.GetUserByFilter(emailType);
             if (filtered != null)
