@@ -8,11 +8,6 @@ public class EmailTypeSearchDTO
     public int? ExperianceDays { get; set; }
 
     /// <summary>
-    /// Заголовок письма
-    /// </summary>
-    public string? EmailTitle { get; set; }
-
-    /// <summary>
     /// Отправлять письма только сотрудникам указанных отделов
     /// </summary>
     public int[]? IntersectDepartmentIds { get; set; }
@@ -28,11 +23,6 @@ public class EmailTypeSearchDTO
     public string[]? IntersectOrganizationNames { get; set; }
 
     /// <summary>
-    /// Название типа письма
-    /// </summary>
-    public string? BodyName { get; set; }
-
-    /// <summary>
     /// Отправлять письма только сотрудникам указанных городов
     /// </summary>
     public string[]? IntersectTowns { get; set; }
@@ -41,12 +31,6 @@ public class EmailTypeSearchDTO
     /// Не отправлять письма сотрудникам указанных городов
     /// </summary>
     public string[]? ExceptTowns { get; set; }
-
-
-    /// <summary>
-    /// Не отправляють после указаной даты
-    /// </summary>
-    public DateTime? DontSendAfterDate { get; set; }
 
     /// <summary>
     /// Кол-во дней декретного отпуска, через которое нужно отправить письмо
@@ -59,11 +43,6 @@ public class EmailTypeSearchDTO
     public string[]? ForGenders { get; set; }
 
     /// <summary>
-    /// Через сколько дней возможна повторная рассылка писем c этим типом
-    /// </summary>
-    public int? DayCountsForResend { get; set; }
-
-    /// <summary>
     /// Отправлять письма только сотрудникам указанных должностей
     /// </summary>
     public HashSet<string>? IntersectUserPosts { get; set; }
@@ -72,8 +51,4 @@ public class EmailTypeSearchDTO
     /// Отправлять письма всем сотрудникам кроме указанных должностей
     /// </summary>
     public HashSet<string>? ExceptUserPosts { get; set; }
-
-    public string? SenderEmail { get; set; }
-
-    public string[]? Bcc { get; set; } = Array.Empty<string>();
 }
