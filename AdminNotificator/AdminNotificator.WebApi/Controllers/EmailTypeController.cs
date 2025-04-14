@@ -1,3 +1,4 @@
+using AdminNotificator.Application.IServices;
 using AdminNotificator.Application.Models.EmailType;
 using AdminNotificator.Application.Services;
 using AdminNotificator.Core.Domain;

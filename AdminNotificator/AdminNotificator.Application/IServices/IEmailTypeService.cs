@@ -1,8 +1,8 @@
-using AdminNotificator.Application.Models.EmailType;
 using AdminNotificator.Application.Common;
+using AdminNotificator.Application.Models.EmailType;
 using AdminNotificator.Core.Domain;
 
-namespace AdminNotificator.Application.Services;
+namespace AdminNotificator.Application.IServices;
 
 public interface IEmailTypeService
 {
