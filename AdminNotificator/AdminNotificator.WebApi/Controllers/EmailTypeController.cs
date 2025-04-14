@@ -21,7 +21,7 @@ public class EmailTypeController(IEmailTypeService emailTypeService, ILogger log
 
     [HttpGet]
     [Route("/api/emailType/{id}")]
-    public async Task<IActionResult> Get(string id)
+    public async Task<IActionResult> Get(int id)
     {
         var result = await emailTypeService.Get(id);
         logger.LogInformation($"EmailTypeController; Method: Get; StatusCode: {Results.Ok()}");
