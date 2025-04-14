@@ -12,7 +12,7 @@ public interface IEmailTypeService
 
     public Task Delete(EmailTypeDeleteDTO emailType);
 
-    public Task<UserProfile> Get(int id);
+    public Task<UserProfile> Get(string id);
 
     public Task<List<UserProfile>> GetEmailsType(EmailTypeSearchDTO emailType);
 

@@ -65,10 +65,8 @@ public class EmailTypeService : IEmailTypeService
         await emailTypeRepository.DeleteAsync(dbEmailType);
     }
 
-    public Task<UserProfile> Get(int id)
+    public Task<UserProfile> Get(string id)
     {
-        if (id < 0) throw new ServiceException("id is negative");
-
         throw new NotImplementedException();
     }
 

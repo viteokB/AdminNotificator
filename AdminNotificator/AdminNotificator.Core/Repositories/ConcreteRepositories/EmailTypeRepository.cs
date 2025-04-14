@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using AdminNotificator.Core.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminNotificator.Core.Repositories;
 
@@ -129,5 +130,10 @@ public class EmailTypeRepository(AdminNotificatorDbContext dbContext) : IEmailTy
         }
 
         return query;
+    }
+
+    public async Task<EmailType?> GetEmailTypeById(string id)
+    {
+        return await dbContext.EmailTypes.FirstOrDefaultAsync(u => u.Id == id);
     }
 }
