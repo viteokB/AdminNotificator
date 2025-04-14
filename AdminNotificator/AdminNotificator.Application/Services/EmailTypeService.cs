@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using AdminNotificator.Application.Models.UserProfile;
 using AdminNotificator.Core.Domain;
 using AdminNotificator.Core.Repositories;
 using Microsoft.Extensions.Logging;
@@ -9,16 +10,22 @@ public class EmailTypeService : IEmailTypeService
 {
     private readonly IRepository<EmailType> emailTypeRepository;
     private readonly ILogger<EmailType> logger;
+    private readonly IMapper mapper;
 
-    public EmailTypeService(IRepository<EmailType> emailTypeRepository, ILogger<EmailType> logger)
+    public EmailTypeService(
+        IRepository<EmailType> emailTypeRepository,
+        IRepository<UserProfile> userProfileRepository,
+        ILogger<EmailType> logger,
+        IMapper mapper)
     {
         this.emailTypeRepository = emailTypeRepository;
         this.logger = logger;
+        this.mapper = mapper;
     }
 
-    public Task<int> Add(EmailType emailType)
+    public Task<int> Add(EmailTypeAddDTO dto)
     {
-        throw new NotImplementedException();
+        mapper.Map();
     }
 
     public Task Update(EmailType emailType)
