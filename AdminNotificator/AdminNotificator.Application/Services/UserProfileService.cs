@@ -34,7 +34,12 @@ public class UserProfileService : IUserProfileService
 
     public async Task<string> Add(UserProfileAddDTO dto)
     {
+        ThrowExceptionAndLogIfNull(dto);
+
         var entity = mapper.Map<UserProfileAddDTO, UserProfile>(dto);
+
+        ThrowExceptionAndLogIfNull(dto.Login);
+
         await userProfileRepository.AddAsync(entity);
         logger.Log(LogLevel.Information, "User profile added");
         return entity.Id;
@@ -42,13 +47,29 @@ public class UserProfileService : IUserProfileService
 
     public async Task Update(UserProfileUpdateDTO dto)
     {
+        ThrowExceptionAndLogIfNull(dto);
+
         var entity = mapper.Map<UserProfileUpdateDTO, UserProfile>(dto);
+
+        ThrowExceptionAndLogIfNull(entity.Sid);
+
         await userProfileRepository.UpdateAsync(entity);
         logger.Log(LogLevel.Information, "User profile updated");
     }
 
+    private void ThrowExceptionAndLogIfNull<T>(T dto)
+    {
+        if (dto is not null)
+            return;
+
+        logger.LogWarning($"User profile is null");
+        throw new ArgumentNullException();
+    }
+
     public async Task Delete(UserProfileDeleteDTO dto)
     {
+        ThrowExceptionAndLogIfNull(dto);
+
         var dbEmailType = userProfileRepository.GetAll()
             .FirstOrDefault(x => x.Id == dto.Id);
 
@@ -66,12 +87,21 @@ public class UserProfileService : IUserProfileService
     public async Task<UserProfileGetDTO> Get(string id)
     {
         var entity = userProfileRepository.GetAll().FirstOrDefault(x => x.Id == id);
+
+        ThrowExceptionAndLogIfNull(entity);
+
         logger.Log(LogLevel.Information, "User profile get");
         return mapper.Map<UserProfile, UserProfileGetDTO>(entity);
     }
 
     public async Task<PaginatedList<UserProfileGetDTO>> GetAll(int pageIndex, int pageSize)
     {
+        if (pageSize <= 0)
+        {
+            logger.LogWarning("page size can't be less or equal 0");
+            throw new ArgumentOutOfRangeException();
+        }
+
         var entities = await userProfileRepository
             .GetAll(pageIndex, pageSize)
             .Select(x => mapper.Map<UserProfile, UserProfileGetDTO>(x))
