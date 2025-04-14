@@ -1,3 +1,4 @@
+using AdminNotificator.Application.Services.Filters;
 using AdminNotificator.Core.Domain;
 using AdminNotificator.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,20 @@ public class UserProfileService : IUserProfileService
 {
     private readonly IRepository<UserProfile> userProfileRepository;
     private readonly ILogger<UserProfile> logger;
-    private readonly UsersFilter usersFilter;
+    private readonly List<IUserFilter> userFilters = new List<IUserFilter>();
 
-    public UserProfileService(IRepository<UserProfile> userProfileRepository, ILogger<UserProfile> logger,
-        UsersFilter usersFilter)
+    public UserProfileService(IRepository<UserProfile> userProfileRepository, ILogger<UserProfile> logger, 
+        FilterByDepartment filterByDepartment, FilterByGender filterByGender, 
+        FilterByOrganizationNames filterByOrganizationNames, FilterByPosts filterByPosts, FilterByTowns filterByTowns)
     {
         this.userProfileRepository = userProfileRepository;
         this.logger = logger;
-        this.usersFilter = usersFilter;
+        userFilters.Add(filterByDepartment);
+        userFilters.Add(filterByGender);
+        userFilters.Add(filterByOrganizationNames);
+        userFilters.Add(filterByPosts);
+        userFilters.Add(filterByTowns);
+        
     }
 
     public Task<int> Add(UserProfile userProfile)
@@ -45,35 +52,18 @@ public class UserProfileService : IUserProfileService
     }
 
     public async Task<IEnumerable<UserProfile>> GetUsersWithAllFilters(EmailType emailType)
-    {
-        if (emailType == null)
+    { 
+        HashSet<UserProfile> filteredUers = new HashSet<UserProfile>();
+        foreach (var filter in userFilters)
         {
-            return Enumerable.Empty<UserProfile>();
+            var filtered = await filter.GetUserByFilter(emailType);
+            if (filtered != null)
+            {
+                filteredUers.IntersectWith(filtered);
+            }
         }
 
-        // Собираем все задачи фильтрации
-        var filterTasks = new List<Task<IEnumerable<UserProfile>>>();
-    
-        // Добавляем только те фильтры, которые имеют значения
-        if (emailType.IntersectTowns?.Any() == true)
-            filterTasks.Add(usersFilter.GetUsersByIntersectTown(emailType));
-    
-        if (emailType.IntersectOrganizationNames?.Any() == true)
-            filterTasks.Add(usersFilter.GetUsersByIntersectOrganizationNames(emailType));
-    
-        if (emailType.IntersectDepartmentIds?.Any() == true)
-            filterTasks.Add(usersFilter.GetUsersByIntersectDepartment(emailType));
-    
-        if (emailType.ForGenders != null)
-            filterTasks.Add(usersFilter.GetUsersByIntersectGenders(emailType));
-        
-        var filteredResults = await Task.WhenAll(filterTasks);
-    
-        var commonUsers = filteredResults
-            .Aggregate((current, next) => current.Intersect(next))
-            .ToList();
-
-        return commonUsers;
+        return filteredUers.AsEnumerable();
     }
    
 }
