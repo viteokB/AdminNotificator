@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using AdminNotificator.WebApi;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAplicationServices();
+builder.Services.AddCore();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
@@ -40,6 +44,7 @@ builder.Logging.AddSimpleConsole(options =>
     options.SingleLine = true;
     options.TimestampFormat = "[yyyy-MM-dd HH:mm:ss] ";
 });
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
