@@ -43,6 +43,6 @@ public class EmailTypeService : IEmailTypeService
 
     public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id)
     {
-
+        throw new NotImplementedException();
     }
 }
