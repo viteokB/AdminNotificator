@@ -7,9 +7,14 @@ namespace AdminNotificator.Core.Repositories;
 
 public class UserProfileRepository(AdminNotificatorDbContext context) : IRepository<UserProfile>
 {
+    public IQueryable<UserProfile> GetAll(int pageIndex, int pageSize)
+    {
+        return context.UserProfiles.Skip(pageIndex * pageSize).Take(pageSize);
+    }
+
     public IQueryable<UserProfile> GetAll()
     {
-        return context.UserProfiles.AsQueryable();
+        return context.UserProfiles;
     }
 
     public async Task AddAsync(UserProfile item, CancellationToken cancellationToken = default)
@@ -33,7 +38,7 @@ public class UserProfileRepository(AdminNotificatorDbContext context) : IReposit
     public async Task DeleteAllAsync(Expression<Func<UserProfile, bool>> predicate, CancellationToken cancellationToken = default)
     {
         var itemsToDelete = await context.UserProfiles.Where(predicate).ToListAsync(cancellationToken);
-        
+
         if (itemsToDelete.Count != 0)
         {    context.UserProfiles.RemoveRange(itemsToDelete);
             await context.SaveChangesAsync(cancellationToken);
