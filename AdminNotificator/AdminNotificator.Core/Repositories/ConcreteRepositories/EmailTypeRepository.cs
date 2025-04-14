@@ -10,6 +10,11 @@ public class EmailTypeRepository(AdminNotificatorDbContext dbContext) : IEmailTy
         return dbContext.EmailTypes;
     }
 
+    public IQueryable<EmailType> GetAll(int pageIndex, int pageSize)
+    {
+        return dbContext.EmailTypes.Skip(pageIndex * pageSize).Take(pageSize);
+    }
+
     public async Task AddAsync(EmailType item, CancellationToken cancellationToken = default)
     {
         await dbContext.AddAsync(item, cancellationToken);
@@ -54,7 +59,7 @@ public class EmailTypeRepository(AdminNotificatorDbContext dbContext) : IEmailTy
         // Фильтр по стажу (количеству дней в компании)
         if (searchDto.ExperianceDays.HasValue)
         {
-            query = query.Where(u => u.ExperienceDays.HasValue && 
+            query = query.Where(u => u.ExperienceDays.HasValue &&
                                    u.ExperienceDays.Value == searchDto.ExperianceDays.Value);
         }
 
@@ -73,29 +78,29 @@ public class EmailTypeRepository(AdminNotificatorDbContext dbContext) : IEmailTy
         // Фильтр по организациям
         if (searchDto.IntersectOrganizationNames != null && searchDto.IntersectOrganizationNames.Any())
         {
-            query = query.Where(u => u.UserPositions.Any(p => 
+            query = query.Where(u => u.UserPositions.Any(p =>
                 searchDto.IntersectOrganizationNames.Contains(p.OrganizationShortname)));
         }
 
         // Фильтр по городам (включение)
         if (searchDto.IntersectTowns != null && searchDto.IntersectTowns.Any())
         {
-            query = query.Where(u => u.UserOffice != null && 
+            query = query.Where(u => u.UserOffice != null &&
                                    searchDto.IntersectTowns.Contains(u.UserOffice.Town));
         }
 
         // Фильтр по городам (исключение)
         if (searchDto.ExceptTowns != null && searchDto.ExceptTowns.Any())
         {
-            query = query.Where(u => u.UserOffice == null || 
+            query = query.Where(u => u.UserOffice == null ||
                                    !searchDto.ExceptTowns.Contains(u.UserOffice.Town));
         }
 
         // Фильтр по декретному отпуску
         if (searchDto.MaternityDays.HasValue && searchDto.MaternityDays > 0)
         {
-            query = query.Where(u => u.MaternityLeaveDate.HasValue && 
-                                   u.UserStatus == UserStatus.MaternityLeave && 
+            query = query.Where(u => u.MaternityLeaveDate.HasValue &&
+                                   u.UserStatus == UserStatus.MaternityLeave &&
                                    (DateTime.UtcNow - u.MaternityLeaveDate.Value).TotalDays >= searchDto.MaternityDays.Value);
         }
 
@@ -105,21 +110,21 @@ public class EmailTypeRepository(AdminNotificatorDbContext dbContext) : IEmailTy
             var genders = searchDto.ForGenders
                 .Select(g => Enum.Parse<UserGender>(g, true))
                 .ToList();
-                
+
             query = query.Where(u => genders.Contains(u.UserGender));
         }
 
         // Фильтр по должностям (включение)
         if (searchDto.IntersectUserPosts != null && searchDto.IntersectUserPosts.Any())
         {
-            query = query.Where(u => u.UserPositions.Any(p => 
+            query = query.Where(u => u.UserPositions.Any(p =>
                 searchDto.IntersectUserPosts.Contains(p.Post)));
         }
 
         // Фильтр по должностям (исключение)
         if (searchDto.ExceptUserPosts != null && searchDto.ExceptUserPosts.Any())
         {
-            query = query.Where(u => !u.UserPositions.Any(p => 
+            query = query.Where(u => !u.UserPositions.Any(p =>
                 searchDto.ExceptUserPosts.Contains(p.Post)));
         }
 
