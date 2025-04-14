@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using AdminNotificator.Core.Domain;
 
@@ -29,16 +29,6 @@ public class UserProfileRepository : IRepository<UserProfile>
         throw new NotImplementedException();
     }
 
-    public Task UpdateAsync(UserProfile item, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(UserProfile item, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task DeleteAllAsync(IEnumerable<UserProfile> items, CancellationToken cancellationToken = default)
     {
         _dBcontext.UserProfiles.RemoveRange(items);
@@ -48,5 +38,17 @@ public class UserProfileRepository : IRepository<UserProfile>
     public async Task DeleteAllAsync(Expression<Func<UserProfile, bool>> predicate, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task UpdateAsync(UserProfile item, CancellationToken cancellationToken = default)
+    {
+        context.UserProfiles.Update(item);
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteAsync(UserProfile item, CancellationToken cancellationToken = default)
+    {
+        context.UserProfiles.Remove(item);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }
