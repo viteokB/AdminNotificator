@@ -50,7 +50,9 @@ public class EmailTypeService : IEmailTypeService
 
         if (dbEmailType == null)
         {
-            throw new EmailException($"Email type with id={dto.Id} not found");
+            var message = $"Email type with id={dto.Id} not found";
+            logger.Log(LogLevel.Warning, message);
+            throw new EmailException(message);
         }
 
         await emailTypeRepository.DeleteAsync(dbEmailType);
@@ -73,6 +75,7 @@ public class EmailTypeService : IEmailTypeService
             .Select(x => mapper.Map<EmailType, EmailTypeGetDTO>(x))
             .ToListAsync();
 
+        logger.Log(LogLevel.Information, "User profiles get");
         return new PaginatedList<EmailTypeGetDTO>(emailTypes, pageIndex, pageSize);
     }
     public Task<IEnumerable<UserProfile>> GetUserProfilesByEmailType(int id)
